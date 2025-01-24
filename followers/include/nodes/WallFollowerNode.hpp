@@ -6,7 +6,7 @@
 #include "geometry_msgs/msg/twist.hpp"
 #include "std_msgs/msg/bool.hpp"
 #include <chrono>
-#include "minirys_ros2/helpers/PIDRegulator.hpp"
+#include "pid_regulator/PIDRegulator.hpp"
 #include <memory>
 
 
@@ -47,7 +47,7 @@ class WallFollower: public rclcpp::Node{
     float right_sensor = 0.0f;
     float front_sensor = 0.0f;
 
-    std::unique_ptr<PIDRegulator> pid;
+    std::unique_ptr<pid_regulator::PIDRegulator> pid;
     double linearSpeed;
     float maxU;
     WallFollowerStates flag_ = PID_WALL_FOLLOWING;

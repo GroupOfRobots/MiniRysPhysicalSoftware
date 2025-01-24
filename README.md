@@ -10,6 +10,7 @@ supervisor: @Kuba Ostrysz
   Link is to main README.file! 
 * [minirys_ros2](minirys_ros2/README.md)
 * [minirys_sensors](minirys_sensors/README.md)
+* [pid_regulator](pid_regulator/README.md)
 * [sbc-linux-interfaces](sbc-linux-interfaces/README.md)
 * [vision_opencv](https://github.com/ros-perception/vision_opencv/blob/humble/README.md)  
   Be sure to check for appropriate submodule commit.  

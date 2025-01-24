@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-import rclpy 
-from rclpy.node import Node 
-from sensor_msgs.msg import Image 
-import cv2 
-from cv_bridge import CvBridge 
+import rclpy
+from rclpy.node import Node
+from sensor_msgs.msg import Image
+import cv2
+from cv_bridge import CvBridge
 import numpy as np
 from rclpy.parameter import Parameter
 from pid import PID
@@ -33,33 +33,32 @@ class LineFollowerNoCamm(Node):
                 ('Ti', Parameter.Type.DOUBLE),
                 ('Td', Parameter.Type.DOUBLE),
                 ('turnOffsetParam', Parameter.Type.DOUBLE),
-                ('linearSpeed', Parameter.Type.DOUBLE),
-                ('minirys_namespace', Parameter.Type.STRING)
-            ])
+                ('linearSpeed', Parameter.Type.DOUBLE)
+            ]
+        )
         self.logger.info("LLL")
         self.maxU = self.get_parameter("maxU").get_parameter_value().double_value
         self.minU = -self.maxU
         self.speed = self.get_parameter("linearSpeed").get_parameter_value().double_value
         self.turnOffsetParam = self.get_parameter("turnOffsetParam").get_parameter_value().double_value
-        timer_period = self.get_parameter("timer_period").get_parameter_value().double_value 
+        timer_period = self.get_parameter("timer_period").get_parameter_value().double_value
         K = self.get_parameter("K").get_parameter_value().double_value
         Ti = self.get_parameter("Ti").get_parameter_value().double_value
         Td = self.get_parameter("Td").get_parameter_value().double_value
-        minirys_namespace = self.get_parameter("minirys_namespace").get_parameter_value().string_value
 
         self.logger.info(f"timer_period: { timer_period}, maxU: {self.maxU}, K: {K}, Ti:{Ti}")
-        self.logger.info(f"Td: {Td},turnOffsetParam: {self.turnOffsetParam}, speed: {self.speed}, namespace:{minirys_namespace}")
+        self.logger.info(f"Td: {Td},turnOffsetParam: {self.turnOffsetParam}, speed: {self.speed}, namespace:{self.get_namespace()}")
 
         self.timer = self.create_timer(timer_period, self.timer_callback)
         self.thresh = None
 
-        self.subscription = self.create_subscription(Image, 'cv_video_frames',
+        self.subscription = self.create_subscription(Image, '/cv_video_frames',
             self.listener_callback, 10)
-        
-        self.pid = PID(timer_period,K,Ti,Td) 
 
-        self.publisher3_ = self.create_publisher(Twist, '/'+minirys_namespace+'/cmd_vel', 10)
-        self.subscriber = self.create_subscription(Bool,'/'+minirys_namespace+'/is_line_follower', self.subscr_callback, 10)
+        self.pid = PID(timer_period,K,Ti,Td)
+
+        self.publisher3_ = self.create_publisher(Twist, 'cmd_vel', 10)
+        self.subscriber = self.create_subscription(Bool, 'is_line_follower', self.subscr_callback, 10)
 
         self.is_working = True
 
@@ -92,12 +91,12 @@ class LineFollowerNoCamm(Node):
                         if point[0][1] == y_value:
                             x_value = point[0][0] + x_value
                             i = i +1
-                    if not i == 0: 
+                    if not i == 0:
                         sum_dist = sum_dist + x_value/i - p[0]
                         cv2.circle(img2, p, radius=5, color=(0, 0, 255), thickness=-1)
                         cv2.circle(img2, (int(x_value/i), y_value), radius=5, color=(255, 0, 0), thickness=-1)
                 self.y = sum_dist/len(self.points)
-                
+
                 # recognizing 90 turn
                 if cv2.pointPolygonTest(cnt, self.leftT, False) >= 0 and cv2.pointPolygonTest(cnt, self.rightT, False) < 0 :
                     print("prawy")

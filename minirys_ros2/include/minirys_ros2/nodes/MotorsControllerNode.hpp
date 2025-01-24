@@ -1,6 +1,6 @@
 #pragma once
 
-#include "minirys_ros2/helpers/PIDRegulator.hpp"
+#include "pid_regulator/PIDRegulator.hpp"
 #include "minirys_ros2/helpers/TimeMeasure.hpp"
 
 #include <rclcpp/rclcpp.hpp>
@@ -72,8 +72,8 @@ private:
     // rad?
 	double maxBalancingAngle;
 
-	std::unique_ptr<PIDRegulator> anglePidRegulator;
-	std::unique_ptr<PIDRegulator> speedPidRegulator;
+	std::unique_ptr<pid_regulator::PIDRegulator> anglePidRegulator;
+	std::unique_ptr<pid_regulator::PIDRegulator> speedPidRegulator;
 
 	rclcpp::Clock steadyROSClock;
 

@@ -16,7 +16,7 @@ find_package(OpenCV REQUIRED)
 find_package(rclpy REQUIRED)
 find_package(geometry_msgs)
 find_package(ament_cmake_python REQUIRED)
-find_package(minirys_ros2 REQUIRED)
+find_package(pid_regulator REQUIRED)
 
 
 
@@ -33,28 +33,22 @@ if(BUILD_TESTING)
 endif()
 
 include_directories(include
-${ament_INCLUDE_DIRS}  
- ../minirys_ros2/include
-)
-
-add_library(PIDRegulator
-  ../minirys_ros2/src/helpers/PIDRegulator.cpp
+  ${ament_INCLUDE_DIRS}
 )
 
 add_library(CombinedFollowerNode
   src/nodes/CombinedFollowerNode.cpp
 )
 ament_target_dependencies(CombinedFollowerNode
-rclcpp std_msgs sensor_msgs geometry_msgs
+  rclcpp std_msgs sensor_msgs geometry_msgs
 )
 
 add_library(WallFollowerNode
   src/nodes/WallFollowerNode.cpp
 )
 ament_target_dependencies(WallFollowerNode
-rclcpp std_msgs sensor_msgs geometry_msgs minirys_ros2 
+  rclcpp std_msgs sensor_msgs geometry_msgs pid_regulator
 )
-target_link_libraries(WallFollowerNode PIDRegulator)
 
 add_executable(wallfollower src/executables/wallfollower.cpp)
 target_link_libraries(wallfollower WallFollowerNode)
@@ -63,14 +57,14 @@ add_executable(combinedFollower src/executables/combinedFollower.cpp)
 target_link_libraries(combinedFollower CombinedFollowerNode)
 
 install(TARGETS
-   wallfollower
-   DESTINATION lib/${PROJECT_NAME}
- )
- 
+  wallfollower
+  DESTINATION lib/${PROJECT_NAME}
+)
+
  install(TARGETS
-   combinedFollower
-   DESTINATION lib/${PROJECT_NAME}
- )
+  combinedFollower
+  DESTINATION lib/${PROJECT_NAME}
+)
 
 ament_python_install_package(py_scripts)
 
