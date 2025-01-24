@@ -81,8 +81,8 @@ MotorsControllerNode::MotorsControllerNode(rclcpp::NodeOptions options):
     RCLCPP_INFO_STREAM(this->get_logger(), "Got param: pidAngleTi " << pidAngleTi);
     RCLCPP_INFO_STREAM(this->get_logger(), "Got param: pidAngleTd " << pidAngleTd);
 	
-	this->speedPidRegulator = std::unique_ptr<PIDRegulator>(new PIDRegulator((float) period.count(), (float) pidSpeedKp, (float) pidSpeedTi, (float) pidSpeedTd));
-	this->anglePidRegulator = std::unique_ptr<PIDRegulator>(new PIDRegulator((float) period.count(), (float) pidAngleKp, (float) pidAngleTi, (float) pidAngleTd));
+	this->speedPidRegulator = std::make_unique<pid_regulator::PIDRegulator>((float) period.count(), (float) pidSpeedKp, (float) pidSpeedTi, (float) pidSpeedTd);
+	this->anglePidRegulator = std::make_unique<pid_regulator::PIDRegulator>((float) period.count(), (float) pidAngleKp, (float) pidAngleTi, (float) pidAngleTd);
 
 	// Setup the clock (for standing up)
 	this->steadyROSClock = rclcpp::Clock(RCL_STEADY_TIME);

@@ -1,49 +1,48 @@
+/**:
+  line_follower:
+    ros__parameters:
+      timer_period: 0.05
+      maxU: 5.14
+      K: 0.004
+      Ti: 100.0
+      Td: 0.03
+      turnOffsetParam: 1.5
+      linearSpeed: -0.055
 
-line_follower:
-  ros__parameters:
-    timer_period: 0.05
-    maxU: 5.14
-    K: 0.004
-    Ti: 100.0
-    Td: 0.03
-    turnOffsetParam: 1.5
-    linearSpeed: -0.055
-  
-wall_follower:
-  ros__parameters:
-    timer_period: 0.05
-    K: 1.5
-    Ti: 100.0
-    Td: 0.013
-    linearSpeed: -0.11
-    maxU: 0.30
-    left_sensor_offset: 0.02
-    pid_start_side_dist: 0.26
-    front_sensor_turn_end: 0.4
-    turning_side_dist: 0.32
-    not_turning_side_dist: 0.26
-    dist_difference: 0.12
-    
-line_follower_no_cam:
-  ros__parameters:
-    timer_period: 0.05
-    maxU: 5.14
-    K: 0.004
-    Ti: 100.0
-    Td: 0.03
-    turnOffsetParam: 1.0
-    linearSpeed: -0.055
+  wall_follower:
+    ros__parameters:
+      timer_period: 0.05
+      K: 1.5
+      Ti: 100.0
+      Td: 0.013
+      linearSpeed: -0.11
+      maxU: 0.30
+      left_sensor_offset: 0.02
+      pid_start_side_dist: 0.26
+      front_sensor_turn_end: 0.4
+      turning_side_dist: 0.32
+      not_turning_side_dist: 0.26
+      dist_difference: 0.12
 
-combined_follower:
-  ros__parameters:
-    corridor_recogniton_dist: 0.2
-    end_side_dist: 0.3
-    end_front_dist: 0.21
-    corridor_out_front_dist: 0.7
-    corridor_out_side_dist: 0.4
-    stabilization_time: 4000
-    standing_up_time: 7000
-    turning_time: 2000
-    positioning_time: 1500
+  line_follower_no_cam:
+    ros__parameters:
+      timer_period: 0.05
+      maxU: 5.14
+      K: 0.004
+      Ti: 100.0
+      Td: 0.03
+      turnOffsetParam: 1.0
+      linearSpeed: -0.055
+      processedImage: true
 
-
+  combined_follower:
+    ros__parameters:
+      corridor_recogniton_dist: 0.2
+      end_side_dist: 0.3
+      end_front_dist: 0.21
+      corridor_out_front_dist: 0.7
+      corridor_out_side_dist: 0.4
+      stabilization_time: 4000
+      standing_up_time: 7000
+      turning_time: 2000
+      positioning_time: 1500

@@ -36,7 +36,7 @@ WallFollower::WallFollower() : Node("wall_follower") {
     double Td = this->get_parameter("Td").as_double();
     std::string minirys_namespace = this->get_parameter("minirys_namespace").as_string();
     this->linearSpeed = this->get_parameter("linearSpeed").as_double();
-    this->pid = std::unique_ptr<PIDRegulator>(new PIDRegulator((float) timer_period,(float) K,(float) Ti,(float) Td));
+    this->pid = std::make_unique<pid_regulator::PIDRegulator>((float) timer_period, (float) K, (float) Ti, (float) Td);
     this->maxU = (float)this->get_parameter("maxU").as_double();
 
     RCLCPP_INFO_STREAM(this->get_logger(), "Got param: Ti " << Ti);

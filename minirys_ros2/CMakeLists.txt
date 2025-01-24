@@ -31,6 +31,7 @@ find_package(minirys_sensors REQUIRED)
 find_package(vl53l1x-linux REQUIRED)
 find_package(l6470-linux REQUIRED)
 find_package(ldlidar_stl_ros2 REQUIRED)
+find_package(pid_regulator REQUIRED)
 
 
 include_directories(include)
@@ -186,7 +187,6 @@ ament_target_dependencies(JoyconReceiverNode
 # Motors controller
 add_library(MotorsControllerNode
   src/nodes/MotorsControllerNode.cpp
-  src/helpers/PIDRegulator.cpp
   src/helpers/TimeMeasure.cpp
 )
 ament_target_dependencies(MotorsControllerNode
@@ -194,6 +194,7 @@ ament_target_dependencies(MotorsControllerNode
   std_msgs
   geometry_msgs
   minirys_msgs
+  pid_regulator
 )
 # Odometry
 add_library(OdometryNode
